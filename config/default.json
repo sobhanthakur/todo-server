@@ -1,0 +1,4 @@
+{
+    "mongoURI" : "mongodb+srv://sobhan123:sobhan123@socialnetworkmern.bqz81.mongodb.net/todo-app?retryWrites=true&w=majority",
+    "jwtSecret" : "mysecrettoken"
+}
