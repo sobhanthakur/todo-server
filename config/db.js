@@ -10,6 +10,10 @@ const connectDB = async () => {
       useUnifiedTopology: true,
       useFindAndModify: false,
     });
+
+    // Enable debugging mode
+    // can be set false for production
+    mongoose.set("debug", true);
     console.log("Mongo DB Connected");
   } catch (err) {
     console.error(err.message);

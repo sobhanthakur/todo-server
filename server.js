@@ -10,6 +10,9 @@ connectDB();
 // Enable cors
 app.use(cors());
 
+// Enable logging for development env
+app.use(require("morgan")("dev"));
+
 // Init middleware
 // This helps to pass the request body to the controllers
 app.use(express.json({ extended: false }));

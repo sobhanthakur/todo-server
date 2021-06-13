@@ -1,6 +1,6 @@
 const express = require("express"),
   router = express.Router(),
-  { validationResult } = require("express-validator"),
+  { check, validationResult } = require("express-validator"),
   auth = require("../../middleware/auth"),
   checkObjectId = require("../../middleware/checkObjectId"),
   { newTodoCheck } = require("../validations/todoValidation"),
