@@ -3,7 +3,7 @@ const Todo = require("../../models/Todo");
 /*
  * Create new Todo
  */
-const add = async (req, res) => {
+const add = async (req, res, next) => {
   const { title, description, priority } = req.body;
 
   try {
@@ -19,8 +19,7 @@ const add = async (req, res) => {
     await todo.save();
     res.json(todo);
   } catch (err) {
-    console.error(err.message);
-    return res.status(500).send("Server Error");
+    next(err);
   }
 
   return res;
@@ -29,7 +28,7 @@ const add = async (req, res) => {
 /*
  * Update the Todo Task
  */
-const update = async (req, res) => {
+const update = async (req, res, next) => {
   const { description } = req.body;
 
   try {
@@ -48,8 +47,7 @@ const update = async (req, res) => {
 
     res.json(todo);
   } catch (err) {
-    console.error(err.message);
-    return res.status(500).send("Server Error");
+    next(err);
   }
 
   return res;
@@ -58,7 +56,7 @@ const update = async (req, res) => {
 /*
  * Delete the Todo Task By ID
  */
-const deleteTodo = async (req, res) => {
+const deleteTodo = async (req, res, next) => {
   try {
     const todo = await Todo.findById(req.params.id);
 
@@ -73,8 +71,7 @@ const deleteTodo = async (req, res) => {
 
     res.json({ msg: "Todo removed" });
   } catch (err) {
-    console.error(err.message);
-    return res.status(500).send("Server Error");
+    next(err);
   }
 
   return res;
@@ -83,14 +80,13 @@ const deleteTodo = async (req, res) => {
 /*
  * Delete All Todos
  */
-const deleteAll = async (req, res) => {
+const deleteAll = async (req, res, next) => {
   try {
     await Todo.find({ user: req.user.id }).deleteMany();
 
     res.json({ msg: "Todos removed" });
   } catch (err) {
-    console.error(err.message);
-    return res.status(500).send("Server Error");
+    next(err);
   }
 
   return res;
@@ -99,17 +95,19 @@ const deleteAll = async (req, res) => {
 /*
  * Get All Todos
  */
-const getAll = async (req, res) => {
+const getAll = async (req, res, next) => {
   try {
-    const todo = await Todo.find({ user: req.user.id, priority: req.params.priority });
+    const todo = await Todo.find({
+      user: req.user.id,
+      priority: req.params.priority,
+    });
 
     res.json(todo);
   } catch (err) {
-    console.error(err.message);
-    return res.status(500).send("Server Error");
+    next(err);
   }
 
   return res;
 };
 
-module.exports = { add, update, deleteTodo, deleteAll,getAll };
+module.exports = { add, update, deleteTodo, deleteAll, getAll };
